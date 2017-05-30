@@ -1,0 +1,4 @@
+proy_photo:
+    resource: "@ProyPhotoBundle/Controller/"
+    type:     annotation
+    prefix:   /

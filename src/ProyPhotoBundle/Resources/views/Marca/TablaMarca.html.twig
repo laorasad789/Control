@@ -1,0 +1,43 @@
+{% if marcas is empty %}
+    <tr><td colspan="2"><h1>Sin marcas existentes.</h1></td></tr>
+{% endif %}
+{% for marca in marcas %}
+<tr>
+    <td>{{ marca.NomMarca }}</td>
+    <td colspan="2"><input type="button" data-id="{{ marca.idMarca }}" data-nombre="{{ marca.NomMarca }}" id="boton" name="boton" value="Modificar">
+    {% if marca.Visible == 1 %}
+        <input type="button" id="boton" name="boton" data-id="{{ marca.idMarca }}" value="Desactivar">
+    {% else %}
+        <input type="button" id="boton" name="boton" data-id="{{ marca.idMarca }}" value="Activar"></td>
+    {% endif %}
+</tr>
+{% endfor %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $("input[type=button]").click(function () {
+                var btn = $(this).val();
+                if(btn == "Modificar"){
+                    document.getElementById('nombremarca').value = $(this).data('nombre');
+                    document.getElementById('idmarca').value = $(this).data('id');
+                }
+                if(btn == "Activar" || btn == "Desactivar"){
+                    var idmarca = $(this).data('id');
+                    $.ajax({
+                        url: "{{ path('OperacionesSQLMarca') }}",
+                        type: 'POST',
+                        data: "idmarca="+idmarca+"&btn="+btn,
+                        success: function (data) {
+                            if($.trim(data) == 1){
+                                alert("Operación completa.");
+                                $("#tbody").load("{{ path('LlenatablaMarca') }}");
+                            } else{
+                                alert("No se puede realizar la operación.");
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}

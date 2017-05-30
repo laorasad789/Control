@@ -1,0 +1,71 @@
+{% extends '@ProyPhoto/base.html.twig' %}
+{% block contenido %}
+    <div class="center-align">
+        <div align="center">
+        <table align="center" id="table" class="center-align">
+            <tr><td colspan="3" align="center"><h2>Marca</h2></td></tr>
+            <tr><td colspan="3">Nombre de la marca:</td></tr>
+            <tr><td colspan="3"><input type="text" class="validate" id="nombremarca" name="nombremarca" placeholder="Nombre de la marca"></td></tr>
+            <tr><td colspan="3"><input type="hidden" class="validate" id="idmarca" name="idmarca" placeholder="idmarca"></td></tr>
+            
+        
+            
+            
+            
+        </table>
+            <div class="row">
+           <div class="input-field col s12">
+            <input type="button" id="boton" name="boton" value="Agregar" class="btn waves-effect waves-light">
+            <input type="button" id="boton" name="boton" value="Guardar" class="btn waves-effect waves-light">
+         
+        </div>
+      </div>  
+            
+    </div>
+    </div>
+   
+    <div align="center">
+        <table border="1">
+            <thead>
+                <th>Nombre de la marca</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            //funcion llenar tabla
+             $("#tbody").load("{{ path('LlenatablaMarca') }}"); 
+            $("input[type=button]").click(function () {
+                var btn = $(this).val();
+                if($("#nombremarca").val() == "")
+                    alert("Llene todos los campos");
+                else {
+                    $.ajax({
+                        url: "{{ path('OperacionesSQLMarca') }}",
+                        type: 'POST',
+                        data: $(".validate").serialize()+"&btn="+btn,
+                        success: function (data) {
+                            if($.trim(data) == 1){
+                                alert("Operación completa.");
+                                //funcion llenar tabla (recargarla)
+                                 $("#tbody").load("{{ path('LlenatablaMarca') }}"); 
+                                document.getElementById('nombremarca').value = "";
+                                document.getElementById('idmarca').value = "";
+                            } else{
+                                alert("No se puede realizar la operación.");
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}
+

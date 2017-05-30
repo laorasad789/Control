@@ -1,0 +1,4 @@
+services:
+#    proy_photo.example:
+#        class: ProyPhotoBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

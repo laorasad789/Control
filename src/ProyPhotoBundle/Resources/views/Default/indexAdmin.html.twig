@@ -1,0 +1,17 @@
+{% extends '@ProyPhoto/base.html.twig' %}
+
+{% block contenido %}
+    <div align="center">
+        <table align="center">
+            <h1>{{ mensaje }}</h1>
+            <tr>
+                <td>Nombre del administrador: </td>
+                <td> {{ alumno }} </td>
+            </tr>
+            <tr>
+                <td>Fecha: </td>
+                <td>{{ fecha }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
